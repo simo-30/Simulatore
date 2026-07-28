@@ -3,7 +3,7 @@
 #include "sqlite3.h"
 #include "database.h"
 
-sqlite3 *apri_databse (const char *percorso) {
+sqlite3 *apri_database (const char *percorso) {
 	sqlite3 *db = NULL;
 
     int risultato = sqlite3_open_v2(

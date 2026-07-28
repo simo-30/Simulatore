@@ -2,4 +2,4 @@
 #include <stdlib.h>
 #include "sqlite3.h"
 
-sqlite3 *apri_databse (const char *percorso);
+sqlite3 *apri_database (const char *percorso);
