@@ -1,0 +1,38 @@
+CC := gcc
+CFLAGS := -std=c11 -Wall -Wextra
+TARGET := main.exe
+
+SRC := main.c \
+       Database/database.c \
+       Database/sqlite3.c
+
+OBJ := main.o \
+       Database/database.o \
+       Database/sqlite3.o
+
+.PHONY: all run clean rebuild
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET)
+
+main.o: main.c Database/database.h Database/sqlite3.h
+	$(CC) $(CFLAGS) -c main.c -o main.o
+
+Database/database.o: Database/database.c Database/database.h Database/sqlite3.h
+	$(CC) $(CFLAGS) -c Database/database.c -o Database/database.o
+
+Database/sqlite3.o: Database/sqlite3.c Database/sqlite3.h
+	$(CC) $(CFLAGS) -c Database/sqlite3.c -o Database/sqlite3.o
+
+run: $(TARGET)
+	.\$(TARGET)
+
+clean:
+	@if exist main.o del /Q main.o
+	@if exist Database\database.o del /Q Database\database.o
+	@if exist Database\sqlite3.o del /Q Database\sqlite3.o
+	@if exist $(TARGET) del /Q $(TARGET)
+
+rebuild: clean all

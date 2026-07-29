@@ -30,3 +30,7 @@ sqlite3 *apri_database (const char *percorso) {
 
     return db;
 }
+
+int create_table (const char *sql_statement, sqlite3 *file_db) {
+	return 0;
+}
