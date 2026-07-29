@@ -10,6 +10,7 @@
 //
 
 #define PATH_ARCHIVIO_PUNTI "Archivio/punti.txt"
+#define CHAR_SEPARATORE "|"
 
 bool esiste_file(const char *path_file);
 

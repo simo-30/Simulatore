@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "archivio.h"
 
 bool esiste_file(const char *path_file) {
@@ -30,24 +31,29 @@ int crea_file_archivio(const char *path_file) {
 
 int get_id_punto() {
 	FILE *f = fopen(PATH_ARCHIVIO_PUNTI, "r");
-    if (f == NULL) return 1;
+    if (f == NULL) return -1;
+	
+	char riga[256];
+	char c_id[256]="";
 
-    // 1. Vai alla fine del file
-    fseek(f, 0, SEEK_END);
-    
-    // 2. Torna indietro di 256 byte (stima della lunghezza massima di una riga)
-    // Nota: Se la riga è più lunga, aumenta questo valore
-    fseek(f, -256, SEEK_CUR);
-
-    char buffer[256];
-    char ultima_riga[256] = "";
-
-    // 3. Leggi la parte finale e conserva l'ultimo frammento
-    while (fgets(buffer, sizeof(buffer), f) != NULL) {
-        snprintf(ultima_riga, sizeof(ultima_riga), "%s", buffer);
+    while (fgets(riga, sizeof(riga), f) != NULL) {
+        printf("%s\n", riga);
+        for (int i = 0; riga[i] != '\0'; i++) {
+			if (riga[i] == CHAR_SEPARATORE[0]) {
+				c_id[i]='\0';
+				break;
+			}
+			c_id[i]=riga[i];
+            //printf("Carattere %d: %c\n", i, riga[i]);
+        }
     }
 
     fclose(f);
-    printf("L'ultima riga estratta dal fondo e': %s", ultima_riga);
-    return 0;
+    
+    printf("%s\n", c_id);
+    
+    int id = atoi(c_id);
+    printf("%d", id);
+
+    return id;
 }
