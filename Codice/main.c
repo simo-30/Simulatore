@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Database/sqlite3.h"
 #include "Database/database.h"
+#include "Punto/punto.h"
 
 int main(){
 	sqlite3 *db = apri_database("Database/archivio.db");
@@ -28,6 +29,7 @@ int main(){
     db = NULL;
 
     printf("Database chiuso correttamente.\n");
+    
 	
 	return 0;
 }

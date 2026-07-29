@@ -4,7 +4,7 @@ Questo progetto prevede l'implementazone di un simulatore totale
 ## Database
 Il progetto utilizza un databse d'appoggio per salvare le informazioni.
 Le tabelle utilizzate sono:
-- Punto
+- Punto (id, x, y, z)
 
 ## Compilazione
 Per compilare il progetto su Windows:

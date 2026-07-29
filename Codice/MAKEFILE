@@ -4,11 +4,13 @@ TARGET := main.exe
 
 SRC := main.c \
        Database/database.c \
-       Database/sqlite3.c
+       Database/sqlite3.c \
+       Punto/punto.c
 
 OBJ := main.o \
        Database/database.o \
-       Database/sqlite3.o
+       Database/sqlite3.o \
+       Punto/punto.o
 
 .PHONY: all run clean rebuild
 
@@ -25,6 +27,9 @@ Database/database.o: Database/database.c Database/database.h Database/sqlite3.h
 
 Database/sqlite3.o: Database/sqlite3.c Database/sqlite3.h
 	$(CC) $(CFLAGS) -c Database/sqlite3.c -o Database/sqlite3.o
+
+Punto/punto.o : Database/database.c Database/database.h Database/sqlite3.h Punto/punto.h
+	$(CC) $(CFLAGS) -c Punto/punto.c -o Punto/punto.o 
 
 run: $(TARGET)
 	.\$(TARGET)
