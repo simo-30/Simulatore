@@ -1,35 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Database/sqlite3.h"
-#include "Database/database.h"
 #include "Punto/punto.h"
+#include "Archivio/archivio.h"
 
 int main(){
-	sqlite3 *db = apri_database("Database/archivio.db");
-
-    if (db == NULL) {
-        return EXIT_FAILURE;
-    }
-
-    printf("Database aperto correttamente.\n");
-    
-        const char *sql =
-        "CREATE TABLE IF NOT EXISTS utenti ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "nome TEXT NOT NULL,"
-        "cognome TEXT NOT NULL,"
-        "eta INTEGER"
-        ");";
-        
-        create_table(sql, db);
-
-	stampa_tabella(db, "SELECT * FROM utenti");
-
-    sqlite3_close(db);
-    db = NULL;
-
-    printf("Database chiuso correttamente.\n");
-    
+    if(esiste_file(PATH_ARCHIVIO_PUNTI)) {
+		printf("Esiste il file %s\n", PATH_ARCHIVIO_PUNTI);
+	}
+	else {
+		printf("NON esiste il file %s\n", PATH_ARCHIVIO_PUNTI);
+		crea_file_archivio(PATH_ARCHIVIO_PUNTI);
+	}
+	
+	get_id_punto();
 	
 	return 0;
 }
