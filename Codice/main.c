@@ -11,11 +11,18 @@ int main(){
     }
 
     printf("Database aperto correttamente.\n");
+    
+        const char *sql =
+        "CREATE TABLE IF NOT EXISTS utenti ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "nome TEXT NOT NULL,"
+        "cognome TEXT NOT NULL,"
+        "eta INTEGER"
+        ");";
+        
+        create_table(sql, db);
 
-    /*
-     * Qui puoi usare db per eseguire:
-     * SELECT, INSERT, UPDATE, DELETE...
-     */
+	stampa_tabella(db, "SELECT * FROM utenti");
 
     sqlite3_close(db);
     db = NULL;
