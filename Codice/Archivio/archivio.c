@@ -37,23 +37,19 @@ int get_id_punto() {
 	char c_id[256]="";
 
     while (fgets(riga, sizeof(riga), f) != NULL) {
-        printf("%s\n", riga);
         for (int i = 0; riga[i] != '\0'; i++) {
-			if (riga[i] == CHAR_SEPARATORE[0]) {
+			if (riga[i] == '|') {
 				c_id[i]='\0';
 				break;
 			}
 			c_id[i]=riga[i];
-            //printf("Carattere %d: %c\n", i, riga[i]);
         }
     }
 
     fclose(f);
     
-    printf("%s\n", c_id);
-    
     int id = atoi(c_id);
-    printf("%d", id);
+    printf("Trovato id = %d\n", id);
 
     return id;
 }

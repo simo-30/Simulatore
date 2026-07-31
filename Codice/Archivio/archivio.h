@@ -5,8 +5,8 @@
 
 //
 //	struttura dei file in cui saranno salvati i dati:
-//	<header1>§<header2>
-//	<valore1>§<valore2>
+//	<header1>|<header2>
+//	<valore1>|<valore2>
 //
 
 #define PATH_ARCHIVIO_PUNTI "Archivio/punti.txt"

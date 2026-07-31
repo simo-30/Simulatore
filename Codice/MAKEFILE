@@ -31,8 +31,8 @@ run: $(TARGET)
 
 clean:
 	@if exist main.o del /Q main.o
-	@if exist Archivio/archivio.o del /Q Archivio/archivio.o 
 	@if exist Punto/punto.o del /Q Punto/punto.o
+	@if exist Archivio/archivio.o del /Q Archivio/archivio.o 
 	@if exist $(TARGET) del /Q $(TARGET)
 
 rebuild: clean all

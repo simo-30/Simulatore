@@ -1,90 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "punto.h"
+#include "../Archivio/archivio.h"
 
 Punto crea_punto (int x, int y, int z) {
 	Punto p;
 	
+	p.id=rand();
 	p.x=x;
 	p.y=y;
 	p.z=z;
 	
+	return p;
+}
+
+Punto crea_punto_random() {
+	Punto p;
+	p.id=rand();
+	p.x=rand();
+	p.y=rand();
+	p.z=rand();
 	
 	return p;
 }
 
-/*
-int crea_tabella_punti (sqlite3 *db) {
-    
-    create_table(SQL_CREATE_TABLE_PUNTI, db);
+void stampa_punto(Punto p) {
+	printf("Il punto ha le coordinate:\nx = %d\ny = %d\nz = %d\n", p.x, p.y, p.z);
+	printf("L'id del punto e':\nid = %d\n", p.id);
+}
+
+Header_List_Punto init_header_list_punto() {
+	Header_List_Punto h;
+	h.count=0;
+	return h;
+}
+
+Item_List_Punto init_item_list_punto(Punto p) {
+	Item_List_Punto p_item;
+	p_item.p.id=p.id;
+	p_item.p.x=p.x;
+	p_item.p.y=p.y;
+	p_item.p.z=p.z;
 	
-	return 0;
+	p_item.next_p = malloc(sizeof(Item_List_Punto));
+	
+	return p_item;
 }
 
-int insert_punto_intoDB(Punto p, sqlite3 *db)
-{
-    if (db == NULL) {
-        fprintf(stderr, "Database non valido.\n");
-        return 1;
-    }
-
-    const char *sql = SQL_INSERT_PUNTO;
-    sqlite3_stmt *statement = NULL;
-
-    int risultato = sqlite3_prepare_v2(
-        db,
-        sql,
-        -1,
-        &statement,
-        NULL
-    );
-
-    if (risultato != SQLITE_OK) {
-        fprintf(
-            stderr,
-            "Errore nella preparazione della INSERT: %s\n",
-            sqlite3_errmsg(db)
-        );
-
-        return 1;
-    }
-
-    sqlite3_bind_int(statement, 1, p.x);
-    sqlite3_bind_int(statement, 2, p.y);
-    sqlite3_bind_int(statement, 3, p.z);
-
-    risultato = sqlite3_step(statement);
-
-    if (risultato != SQLITE_DONE) {
-        fprintf(
-            stderr,
-            "Errore durante la INSERT: %s\n",
-            sqlite3_errmsg(db)
-        );
-
-        sqlite3_finalize(statement);
-        return 1;
-    }
-
-	risultato = sqlite3_step("COMMIT;");
-
-    p.id = (int)sqlite3_last_insert_rowid(db);
-
-    printf(
-        "Punto inserito: id=%d, x=%d, y=%d, z=%d\n",
-        p.id,
-        p.x,
-        p.y,
-        p.z
-    );
-
-    printf(
-        "Righe inserite: %d\n",
-        sqlite3_changes(db)
-    );
-
-    sqlite3_finalize(statement);
-
-    return 0;
+Punto somma_punti(Punto p1, Punto p2) {
+	Punto somma;
+	somma.id= (p1.id + p2.id)/2;
+	somma.x = p1.x + p2.x;
+	somma.y = p1.y + p2.y;
+	somma.z = p1.z + p2.z;
+	
+	return somma;
 }
-*/
+
+void init_first_item(Header_List_Punto *h) {
+	h->first_p = malloc(sizeof(Item_List_Punto));
+	return;
+}
+
+void add_first_punto(Header_List_Punto *h, Item_List_Punto *ip) {
+	h->first_p = ip;
+	h->count = 1;
+	return;
+}
+
+void append_item_punto (Header_List_Punto *h, Item_List_Punto *ip) {
+	if (h->count==0) {
+		add_first_punto(h, ip);
+	}
+	else {
+		//da completare l'append degli item in coda alla lista
+	}
+	
+	return;
+}
