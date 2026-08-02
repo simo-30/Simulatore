@@ -39,6 +39,14 @@ int main(){
 	stampa_punto(h.first_p->p);
 	printf("%d\n", h.count);
 	
+	Punto p2 = crea_punto_random();
+	Item_List_Punto ip2 = init_item_list_punto(p2);
+	
+	append_item_punto(&h, &ip2);
+	const char *nome_file = "E:/Simone/Simulatore/Codice/Punto/punti_3Agosto.txt";
+	
+	scrivi_lista_punti_su_file(&h, nome_file);
+		
 	return 0;
 }
 

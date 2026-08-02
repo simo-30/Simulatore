@@ -32,18 +32,18 @@ void stampa_punto(Punto p) {
 
 Header_List_Punto init_header_list_punto() {
 	Header_List_Punto h;
+	
 	h.count=0;
+	h.first_p=NULL;
+	
 	return h;
 }
 
 Item_List_Punto init_item_list_punto(Punto p) {
 	Item_List_Punto p_item;
-	p_item.p.id=p.id;
-	p_item.p.x=p.x;
-	p_item.p.y=p.y;
-	p_item.p.z=p.z;
+	p_item.p= p;
 	
-	p_item.next_p = malloc(sizeof(Item_List_Punto));
+	p_item.next_p = NULL;
 	
 	return p_item;
 }
@@ -64,18 +64,189 @@ void init_first_item(Header_List_Punto *h) {
 }
 
 void add_first_punto(Header_List_Punto *h, Item_List_Punto *ip) {
-	h->first_p = ip;
-	h->count = 1;
-	return;
+    if (h == NULL || ip == NULL) {
+        return;
+    }
+
+    ip->next_p = NULL;
+    h->first_p = ip;
+    h->count = 1;
+    
+    return;
 }
 
-void append_item_punto (Header_List_Punto *h, Item_List_Punto *ip) {
-	if (h->count==0) {
-		add_first_punto(h, ip);
-	}
-	else {
-		//da completare l'append degli item in coda alla lista
-	}
-	
-	return;
+void append_item_punto(Header_List_Punto *h, Item_List_Punto *ip) {
+    Item_List_Punto *corrente;
+
+    if (h == NULL || ip == NULL) {
+        return;
+    }
+
+    ip->next_p = NULL;
+
+    if (h->first_p == NULL) {
+        add_first_punto(h, ip);
+        return;
+    }
+
+    corrente = h->first_p;
+
+    while (corrente->next_p != NULL) {
+        corrente = corrente->next_p;
+    }
+
+    corrente->next_p = ip;
+    h->count++;
+    
+    return;
+}
+
+void libera_lista_punti(Header_List_Punto *h) {
+    Item_List_Punto *corrente;
+
+    if (h == NULL) {
+        return;
+    }
+
+    corrente = h->first_p;
+
+    while (corrente != NULL) {
+        Item_List_Punto *successivo = corrente->next_p;
+
+        free(corrente);
+        corrente = successivo;
+    }
+
+    h->first_p = NULL;
+    h->count = 0;
+}
+
+int scrivi_lista_punti_su_file(const Header_List_Punto *h, const char *nome_file) {
+    FILE *file;
+    const Item_List_Punto *corrente;
+    printf("scrivo lista sul file %s\n", nome_file);
+
+    if (h == NULL || nome_file == NULL) {
+        return 0;
+    }
+    
+    printf("Apro il file %s\n", nome_file);
+
+    file = fopen(nome_file, "w");
+
+    if (file == NULL) {
+        perror("Errore nell'apertura del file");
+        return 0;
+    }
+
+    corrente = h->first_p;
+
+    while (corrente != NULL) {
+        int risultato = fprintf(
+            file,
+            "%d %d %d %d\n",
+            corrente->p.id,
+            corrente->p.x,
+            corrente->p.y,
+            corrente->p.z
+        );
+
+        if (risultato < 0) {
+            perror("Errore durante la scrittura");
+
+            fclose(file);
+            return 0;
+        }
+
+        corrente = corrente->next_p;
+    }
+
+    if (fclose(file) == EOF) {
+        perror("Errore durante la chiusura del file");
+        return 0;
+    }
+
+    return 1;
+}
+
+int leggi_lista_punti_da_file(const char *nome_file, Header_List_Punto *h) {
+    FILE *file;
+    Header_List_Punto nuova_lista;
+    int risultato_lettura;
+
+    if (nome_file == NULL || h == NULL) {
+        return 0;
+    }
+
+    file = fopen(nome_file, "r");
+
+    if (file == NULL) {
+        perror("Errore nell'apertura del file");
+        return 0;
+    }
+
+    nuova_lista = init_header_list_punto();
+
+    do {
+        Punto p;
+
+        risultato_lettura = fscanf(
+            file,
+            "%d %d %d %d",
+            &p.id,
+            &p.x,
+            &p.y,
+            &p.z
+        );
+
+        if (risultato_lettura == 4) {
+            Item_List_Punto *nuovo_nodo;
+
+            nuovo_nodo = malloc(sizeof *nuovo_nodo);
+
+            if (nuovo_nodo == NULL) {
+                perror("Errore di allocazione");
+
+                fclose(file);
+                libera_lista_punti(&nuova_lista);
+
+                return 0;
+            }
+
+            *nuovo_nodo = init_item_list_punto(p);
+
+            append_item_punto(
+                &nuova_lista,
+                nuovo_nodo
+            );
+        }
+
+    } while (risultato_lettura == 4);
+
+    /*
+     * EOF indica che il file è terminato normalmente.
+     * Un altro valore indica una riga incompleta o non valida.
+     */
+    if (risultato_lettura != EOF) {
+        fprintf(
+            stderr,
+            "Errore: formato del file non valido.\n"
+        );
+
+        fclose(file);
+        libera_lista_punti(&nuova_lista);
+
+        return 0;
+    }
+
+    fclose(file);
+
+    /*
+     * La lista h deve essere stata inizializzata
+     * con init_header_list_punto().
+     */
+    libera_lista_punti(h);
+    *h = nuova_lista;
+
+    return 1;
 }
