@@ -18,9 +18,9 @@ Punto crea_punto (int x, int y, int z, Header_List_Punto *h) {
 Punto crea_punto_random(Header_List_Punto *h) {
 	Punto p;
 	p.id=get_id_punto(h);
-	p.x=rand();
-	p.y=rand();
-	p.z=rand();
+	p.x=rand() % MAX_X;
+	p.y=rand() % MAX_Y;
+	p.z=rand() % MAX_Z;
 	
 	return p;
 }

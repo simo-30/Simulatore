@@ -3,6 +3,10 @@
 
 #pragma once
 
+#define MAX_X 1000
+#define MAX_Y 1000
+#define MAX_Z 1000
+
 typedef struct {
 	int id;
 	int x;
