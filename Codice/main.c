@@ -21,9 +21,6 @@ int main(){
 	
 	stampa_punto(p2);
 	
-	printf("%d\n", h.count);
-	
-	//stampa_punto(somma_punti(p1, crea_punto_random(&h)));
 	
 	if (esiste_file(PATH_ARCHIVIO_PUNTI)) {
 		printf("Il file %s esiste\n", PATH_ARCHIVIO_PUNTI);
@@ -37,6 +34,8 @@ int main(){
 	append_item_punto(&h, lp3);
 	
 	write_file_archivio_punti(h);
+	
+	Header_List_Punto h2 = leggi_file_archivio_punti();
 	return 0;
 }
 

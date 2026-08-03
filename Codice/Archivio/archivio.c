@@ -53,3 +53,16 @@ int write_file_archivio_punti(Header_List_Punto h) {
 	fclose(file);
 	return 0;
 }
+
+Header_List_Punto leggi_file_archivio_punti() {
+	Header_List_Punto hp = init_header_list_punto();
+	
+	FILE *file =fopen(PATH_ARCHIVIO_PUNTI, "r");
+	if (file == NULL) {
+		printf("Errore nell'apertura del file %s\n", PATH_ARCHIVIO_PUNTI);
+		return 1;
+	}
+	
+	fclose(file);
+	return hp;
+}
