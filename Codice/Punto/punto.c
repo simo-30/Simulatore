@@ -4,10 +4,10 @@
 #include "punto.h"
 #include "../Archivio/archivio.h"
 
-Punto crea_punto (int x, int y, int z) {
+Punto crea_punto (int x, int y, int z, Header_List_Punto *h) {
 	Punto p;
 	
-	p.id=rand();
+	p.id=get_id_punto(h);
 	p.x=x;
 	p.y=y;
 	p.z=z;
@@ -15,9 +15,9 @@ Punto crea_punto (int x, int y, int z) {
 	return p;
 }
 
-Punto crea_punto_random() {
+Punto crea_punto_random(Header_List_Punto *h) {
 	Punto p;
-	p.id=rand();
+	p.id=get_id_punto(h);
 	p.x=rand();
 	p.y=rand();
 	p.z=rand();
@@ -100,3 +100,21 @@ void append_item_punto(Header_List_Punto *h, Item_List_Punto *ip) {
     
     return;
 }
+
+int get_id_punto(Header_List_Punto *h) {
+	int id;
+	if (h == NULL) {
+		id = 0;
+	}
+	/*
+	if (h->count == 0) {
+		id = 0;
+	}
+	*/
+	else {
+		id = h->count +1;
+	}
+	
+	return id;
+}
+

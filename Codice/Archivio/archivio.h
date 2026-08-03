@@ -17,5 +17,3 @@ bool esiste_file(const char *path_file);
 int crea_file_archivio(const char *path_file);
 
 int insert_punto_into_archivio(Punto p);
-
-int get_id_punto();

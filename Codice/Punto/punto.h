@@ -21,9 +21,9 @@ typedef struct {
 } Header_List_Punto;
 
 
-Punto crea_punto (int x, int y, int z); /*crea una variabile punto con precisi valori di x,y,z ed usando un valore incrementale dell'id dalla relativa tabella a DB*/
+Punto crea_punto (int x, int y, int z, Header_List_Punto *h); /*crea una variabile punto con precisi valori di x,y,z ed usando un valore incrementale dell'id dalla relativa tabella a DB*/
 
-Punto crea_punto_random (); /*crea una variabile punto con valori random di x,y,z ed usando un valore incrementale dell'id dalla relativa tabella a DB*/
+Punto crea_punto_random (Header_List_Punto *h); /*crea una variabile punto con valori random di x,y,z ed usando un valore incrementale dell'id dalla relativa tabella a DB*/
 
 void stampa_punto(Punto p);
 
@@ -38,3 +38,5 @@ void add_first_punto(Header_List_Punto *h, Item_List_Punto *ip);
 void append_item_punto(Header_List_Punto *h, Item_List_Punto *ip);
 
 void libera_lista_punti(Header_List_Punto *h);
+
+int get_id_punto(Header_List_Punto *h);
