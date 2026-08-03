@@ -12,7 +12,7 @@ typedef struct {
     size_t offset;
 } DescrizioneCampo;
 
-#define DescrizioneCampo CampiPunto[] = {
+DescrizioneCampo CampiPunto[] = {
 	{"id", TIPO_INT, offsetof(Punto, id)},
 	{"x", TIPO_INT, offsetof(Punto, x)},
 	{"y", TIPO_INT, offsetof(Punto, y)},

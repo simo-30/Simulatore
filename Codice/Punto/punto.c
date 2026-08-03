@@ -39,21 +39,28 @@ Header_List_Punto init_header_list_punto() {
 	return h;
 }
 
-Item_List_Punto init_item_list_punto(Punto p) {
-	Item_List_Punto p_item;
-	p_item.p= p;
+Item_List_Punto *init_item_list_punto(Punto p) {
+	Item_List_Punto *p_item=malloc(sizeof(Item_List_Punto));;
+	p_item->p = p;
 	
-	p_item.next_p = NULL;
+	p_item->next_p = NULL;
 	
 	return p_item;
 }
 
 Punto somma_punti(Punto p1, Punto p2) {
 	Punto somma;
-	somma.id= (p1.id + p2.id)/2;
-	somma.x = p1.x + p2.x;
-	somma.y = p1.y + p2.y;
-	somma.z = p1.z + p2.z;
+	// l'id del punto somma è l'id maggiore fra i due punti in input
+	if (p1.id < p2.id) {
+		somma.id = p2.id;
+	}
+	else {
+		somma.id = p1.id;
+	}
+	
+	somma.x = (p1.x + p2.x) % MAX_SOMMA_X;
+	somma.y = (p1.y + p2.y) % MAX_SOMMA_Y;
+	somma.z = (p1.z + p2.z) % MAX_SOMMA_Z;
 	
 	return somma;
 }
@@ -106,11 +113,6 @@ int get_id_punto(Header_List_Punto *h) {
 	if (h == NULL) {
 		id = 0;
 	}
-	/*
-	if (h->count == 0) {
-		id = 0;
-	}
-	*/
 	else {
 		id = h->count +1;
 	}

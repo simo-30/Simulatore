@@ -10,19 +10,33 @@ int main(){
 	
 	Header_List_Punto h = init_header_list_punto();
 	Punto p1 =crea_punto_random(&h);
-	Item_List_Punto lp = init_item_list_punto(p1);
+	Item_List_Punto *lp = init_item_list_punto(p1);
 	stampa_punto(p1);
 	
-	append_item_punto(&h, &lp);
+	append_item_punto(&h, lp);
 	
-	p1 = crea_punto_random(&h);
-	lp = init_item_list_punto(p1);
-	append_item_punto(&h, &lp);
+	Punto p2 = crea_punto_random(&h);
+	Item_List_Punto *lp2 = init_item_list_punto(p2);
+	append_item_punto(&h, lp2);
 	
-	stampa_punto(p1);
+	stampa_punto(p2);
 	
 	printf("%d\n", h.count);
-		
+	
+	//stampa_punto(somma_punti(p1, crea_punto_random(&h)));
+	
+	if (esiste_file(PATH_ARCHIVIO_PUNTI)) {
+		printf("Il file %s esiste\n", PATH_ARCHIVIO_PUNTI);
+	}
+	else {
+		crea_file_archivio(PATH_ARCHIVIO_PUNTI);
+	}
+	
+	Punto p3 = crea_punto_random(&h);
+	Item_List_Punto *lp3 = init_item_list_punto(p3);
+	append_item_punto(&h, lp3);
+	
+	write_file_archivio_punti(h);
 	return 0;
 }
 

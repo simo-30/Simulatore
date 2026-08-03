@@ -3,9 +3,13 @@
 
 #pragma once
 
-#define MAX_X 1000
-#define MAX_Y 1000
-#define MAX_Z 1000
+#define MAX_X 100
+#define MAX_Y 100
+#define MAX_Z 100
+#define MAX_SOMMA_X 1000
+#define MAX_SOMMA_Y 1000
+#define MAX_SOMMA_Z 1000
+
 
 typedef struct {
 	int id;
@@ -33,7 +37,7 @@ void stampa_punto(Punto p);
 
 Header_List_Punto init_header_list_punto(); //inizializza testa della lista
 
-Item_List_Punto init_item_list_punto(Punto p);
+Item_List_Punto *init_item_list_punto(Punto p);
 
 Punto somma_punti (Punto p1, Punto p2);
 
