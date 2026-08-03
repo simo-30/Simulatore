@@ -37,8 +37,4 @@ void init_first_item(Header_List_Punto *h);
 void add_first_punto(Header_List_Punto *h, Item_List_Punto *ip);
 void append_item_punto(Header_List_Punto *h, Item_List_Punto *ip);
 
-int scrivi_lista_punti_su_file(const Header_List_Punto *h, const char *nome_file);
-
-int leggi_lista_punti_da_file(const char *nome_file, Header_List_Punto *h);
-
 void libera_lista_punti(Header_List_Punto *h);
