@@ -1,58 +1,49 @@
 CC := gcc
-CFLAGS := -std=c11 -Wall -Wextra -Wpedantic
-CPPFLAGS :=
+
+TARGET_NAME := main
+BASE_CFLAGS := -std=c11 -Wall -Wextra -Wpedantic
+CFLAGS ?= $(BASE_CFLAGS)
+CPPFLAGS ?= -MMD -MP
+LDFLAGS ?=
+LDLIBS ?=
+
+SRC := main.c \
+       Punto/punto.c \
+       Archivio/archivio.c
+
+OBJ := $(SRC:.c=.o)
+DEP := $(OBJ:.o=.d)
 
 ifeq ($(OS),Windows_NT)
-TARGET := main.exe
-TEST_TARGET := tests/test_punto.exe
-RUN := .\$(TARGET)
-RUN_TEST := .\tests\test_punto.exe
-RM := del /Q
+    EXE_EXT := .exe
+    RUN_CMD := .\$(TARGET_NAME)$(EXE_EXT)
+    CLEAN_CMD = del /Q $(subst /,\,$(OBJ) $(DEP) $(TARGET)) 2>NUL
 else
-TARGET := main
-TEST_TARGET := tests/test_punto
-RUN := ./$(TARGET)
-RUN_TEST := ./$(TEST_TARGET)
-RM := rm -f
+    EXE_EXT :=
+    RUN_CMD := ./$(TARGET_NAME)$(EXE_EXT)
+    CLEAN_CMD = rm -f $(OBJ) $(DEP) $(TARGET)
 endif
 
-OBJ := main.o Punto/punto.o Archivio/archivio.o
-LIB_OBJ := Punto/punto.o Archivio/archivio.o
-TEST_OBJ := tests/test_punto.o
+TARGET := $(TARGET_NAME)$(EXE_EXT)
 
-.PHONY: all run test clean rebuild
+.PHONY: all run clean rebuild
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
 
-main.o: main.c Punto/punto.h Archivio/archivio.h
+%.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-Punto/punto.o: Punto/punto.c Punto/punto.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-Archivio/archivio.o: Archivio/archivio.c Archivio/archivio.h Punto/punto.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-tests/test_punto.o: tests/test_punto.c Punto/punto.h Archivio/archivio.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(TEST_TARGET): $(TEST_OBJ) $(LIB_OBJ)
-	$(CC) $(TEST_OBJ) $(LIB_OBJ) -o $@
 
 run: $(TARGET)
-	$(RUN)
-
-test: $(TEST_TARGET)
-	$(RUN_TEST)
+	$(RUN_CMD)
 
 clean:
-ifeq ($(OS),Windows_NT)
-	-$(RM) main.o Punto\punto.o Archivio\archivio.o tests\test_punto.o $(TARGET) tests\test_punto.exe 2>NUL
-else
-	$(RM) main.o Punto/punto.o Archivio/archivio.o tests/test_punto.o $(TARGET) $(TEST_TARGET)
-endif
+	-$(CLEAN_CMD)
 
-rebuild: clean all
+rebuild:
+	$(MAKE) -f $(firstword $(MAKEFILE_LIST)) clean
+	$(MAKE) -f $(firstword $(MAKEFILE_LIST)) all
+
+-include $(DEP)
