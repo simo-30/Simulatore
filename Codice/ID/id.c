@@ -51,11 +51,46 @@ ID genera_nuovo_id(List_Used_ID *list_id) {
 		current_id = list_id->first_id_used;
 	}
 	
-	while (current_id != NULL) {
-		/*
-		 * in questo ciclo 
-		 */
-		current_id = current_id->next_id;
+	unsigned int i;
+	int used_id;
+	
+	for (i=0; i<=UINT_MAX; i++) {
+		new_id.number=i;
+		char new_lett[5];
+		int l1, l2, l3, l4, l5;
+		for (l1=65; l1<=90; l1++) {
+			new_lett[0] = (char)l1;
+			for (l2=65; l2<=90; l2++) {
+				new_lett[1] = (char)l2;
+				for (l3=65; l3<=90; l3++) {
+					new_lett[2] = (char)l3;
+					for (l4=65; l4<=90; l4++) {
+						new_lett[3] = (char)l4;
+						for (l5=65; l5<=90; l5++) {
+							new_lett[4] = (char)l5;
+							strcpy(new_id.letter, new_lett);
+							used_id = id_in_uso(new_id, list_id);
+							switch (used_id) {
+								case 0:
+									//id già in uso
+									break;
+								case 1:
+									//id libero
+									break;
+								case 2:
+									//lista non inizializzata
+									break;
+								case 3:
+									//lista con zero elementi
+									break;
+								default :
+									printf("caso %d non previsto\n", used_id);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	return new_id;
