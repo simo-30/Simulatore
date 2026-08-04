@@ -27,13 +27,15 @@ int id_in_uso(ID try_new_id, List_Used_ID *list_id) {
 	while (current_id != NULL) {
 		char str_curr_id[30];
 		stampa_id(current_id->id_used, str_curr_id, sizeof(str_curr_id));
-		if (strcmp(str_try_id, str_curr_id) != 0) {
-			printf("ID disponibile\n");
-			exist_id = 1;
+		if (strcmp(str_try_id, str_curr_id) == 0) {
+			exist_id = 0;
+			printf("ID non disponibile\n");
 			return exist_id;
 		}		
 		current_id = current_id ->next_id;
 	}
+	printf("ID disponibile\n");
+	exist_id = 1;
 	
 	return exist_id;
 }
