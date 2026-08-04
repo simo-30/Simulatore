@@ -1,8 +1,12 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "Punto/punto.h"
 #include "Archivio/archivio.h"
+#include "ID/id.h"
 
 
 int main(){
@@ -36,6 +40,15 @@ int main(){
 	write_file_archivio_punti(h);
 	
 	Header_List_Punto h2 = leggi_file_archivio_punti();
+	
+	ID id1;
+	id1.number= 102000;
+	strcpy(id1.letter, "AABC");
+	
+	char str_id[30];
+	stampa_id(id1, str_id, sizeof(str_id));
+	
+	printf("%s\n", str_id);
 	return 0;
 }
 

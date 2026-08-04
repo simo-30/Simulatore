@@ -9,7 +9,8 @@ LDLIBS ?=
 
 SRC := main.c \
        Punto/punto.c \
-       Archivio/archivio.c
+       Archivio/archivio.c \
+       ID/id.c
 
 OBJ := $(SRC:.c=.o)
 DEP := $(OBJ:.o=.d)
