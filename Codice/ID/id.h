@@ -28,3 +28,5 @@ List_Used_ID *init_list_used_id(); //inizializza lista degli id
 int id_in_uso(ID try_new_id, List_Used_ID *list_id); //verifica se l'id è già presente nella lista
 ID genera_nuovo_id(List_Used_ID *list_id); //genera un nuovo id disponibile
 void stampa_id(ID id, char *buffer, size_t dimensione);
+
+int compara_id(ID id1, ID id2); //compara 2 id
