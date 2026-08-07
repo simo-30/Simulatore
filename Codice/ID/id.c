@@ -50,7 +50,7 @@ ID genera_nuovo_id(List_Used_ID *list_id) {
 	unsigned int i;
 	int used_id;
 	
-	for (i=0; i<=UINT_MAX; i++) {
+	for (i=0; i<= MAX_NUMBER_ID; i++) {
 		new_id.number=i;
 		char new_lett[5];
 		int l1, l2, l3, l4, l5;

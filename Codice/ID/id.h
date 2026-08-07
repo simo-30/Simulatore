@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define MAX_NUMBER_ID 1000
+
 /**
  * definisco struttura dati per la gestione degli id
  **/
