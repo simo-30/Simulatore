@@ -23,7 +23,7 @@ int id_in_uso(ID try_new_id, List_Used_ID *list_id) {
 	current_id = list_id->first_id_used;
 	
 	while (current_id != NULL) {
-		if (compara_id(try_new_id, current_id) == 1) {
+		if (compara_id(try_new_id, current_id->id_used) == 0) {
 			exist_id = 0;
 			printf("ID non disponibile\n");
 			return exist_id;
@@ -54,14 +54,18 @@ ID genera_nuovo_id(List_Used_ID *list_id) {
 		new_id.number=i;
 		char new_lett[5];
 		int l1, l2, l3, l4, l5;
+		
 		for (l1=65; l1<=90; l1++) {
 			new_lett[0] = (char)l1;
 			for (l2=65; l2<=90; l2++) {
 				new_lett[1] = (char)l2;
+				
 				for (l3=65; l3<=90; l3++) {
 					new_lett[2] = (char)l3;
+					
 					for (l4=65; l4<=90; l4++) {
 						new_lett[3] = (char)l4;
+						
 						for (l5=65; l5<=90; l5++) {
 							new_lett[4] = (char)l5;
 							strcpy(new_id.letter, new_lett);
