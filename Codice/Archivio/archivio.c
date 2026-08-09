@@ -57,9 +57,19 @@ int write_file_archivio_punti(Header_List_Punto h) {
 Header_List_Punto leggi_file_archivio_punti() {
 	Header_List_Punto hp = init_header_list_punto();
 	
-	FILE *file =fopen(PATH_ARCHIVIO_PUNTI, "r");
+	FILE *file = fopen(PATH_ARCHIVIO_PUNTI, "r");
 	if (file == NULL) {
 		printf("Errore nell'apertura del file %s\n", PATH_ARCHIVIO_PUNTI);
+		return hp;
+	}
+	
+	char header_line[256];
+	fgets(header_line, sizeof(header_line), file);
+	
+	Punto p;
+	while (fscanf(file, "%d|%d|%d|%d\n", &p.id, &p.x, &p.y, &p.z) == 4) {
+		Item_List_Punto *ip = init_item_list_punto(p);
+		append_item_punto(&hp, ip);
 	}
 	
 	fclose(file);
